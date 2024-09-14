@@ -1,0 +1,11 @@
+version: '3.0'
+services:
+    texlive:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        volumes:
+            - ${SRC_FOLDER}:/docs
+            - ${BUILD_FOLDER}:/build
+        working_dir: /docs
+        command: bash -c "mkdir -p /build && ${LATEX_PROGRAM} ${LATEX_ARGS} -output-directory=/build ${MAIN_FILE}"

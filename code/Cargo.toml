@@ -1,0 +1,16 @@
+[toolchain]
+channel = "nightly"
+
+[features]
+disable-stdout = []
+
+[package]
+name = "algos"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cache-macro = "0.4.1"
+csv = "1.3.0"
+lazy_static = "1.5.0"
+lru-cache = "0.1.2"

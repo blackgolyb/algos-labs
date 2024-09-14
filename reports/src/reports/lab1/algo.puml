@@ -1,0 +1,50 @@
+@startuml algo
+
+' (*) --> A
+' --> if (x1) then
+'         -->[0] A
+'     else 
+'         -->[1] B
+'         --> if (x2) then
+'                 -->[0] M
+'             else
+'                 -->[1] E
+'                 --> if (x3) then
+'                         -->[0] M
+'                     else
+'                         -->[1] C
+'                         --> if (x4) then
+'                                 -->[1] M
+'                                 --> D
+'                                 --> K
+'                             else
+'                                 -->[0] K
+'                             endif
+'                     endif
+'             endif
+'     endif
+
+
+start
+
+repeat :A;
+repeat while (x1) is (0) not (1)
+:B;
+if (x2) then (1)
+    :E;
+    if (x3) then (1)
+        :C;
+    else (0)
+    endif
+else (0)
+endif
+:M;
+if (x4) then (0)
+    :D;
+else  (1)
+endif
+:K;
+
+stop
+
+@enduml

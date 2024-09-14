@@ -1,0 +1,48 @@
+% Шаблон ХПІ
+\makeatletter
+\def\input@path{{./classes/}}
+\makeatother
+\documentclass[14pt]{extarticle}
+\input{base/preambule}
+\input{settings}
+
+\begin{document}
+
+\input{base/styles}
+\input{base/titlePage}
+\input{base/contents}
+
+\input{reports/\reportMainFile}
+
+\end{document}
+
+
+% start
+
+% :Початок;
+% :Оператор A;
+% if (x1?) then
+%   :Оператор B;
+%   if (x2?) then
+%     :Оператор E;
+%     if (x3?) then
+%       :Оператор C;
+%     else
+%       :Повернення до B;
+%     endif
+%   else
+%     :Повернення до A;
+%   endif
+% else
+%   :Оператор D;
+%   if (x4?) then
+%     :Оператор M;
+%     :Оператор K;
+%   else
+%     :Повернення до D;
+%   endif
+% endif
+
+% :Кінець;
+% stop
+% @enduml
