@@ -221,9 +221,9 @@ macro_rules! display_node {
             Some(item) => match item {
                 Node(None, list) => {
                     if list.is_null() {
-                        write!($f, $fmt_none)?
+                        write!($f, $fmt_none)?;
                     } else {
-                        write!($f, $fmt_list)?
+                        write!($f, $fmt_list)?;
                     }
                 }
                 Node(Some(value), list) => {

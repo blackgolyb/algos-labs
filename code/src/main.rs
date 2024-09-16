@@ -4,5 +4,5 @@ mod labs;
 mod libs;
 
 pub fn main() {
-    labs::lab8::main();
+    labs::lab9::main();
 }

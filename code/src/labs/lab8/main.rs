@@ -19,28 +19,6 @@ fn present() {
     }
 
     println!("{}", list);
-
-    // for i in 0..10 {
-    //     match list.get_value(vec![i]) {
-    //         None => (),
-    //         Some(value) => {
-    //             println!("({}) -> {}", i, value);
-    //         }
-    //     };
-    // }
-
-    // println!();
-
-    // for i in 0..10 {
-    //     for j in 0..10 {
-    //         match list.get_value(vec![i, j]) {
-    //             None => (),
-    //             Some(value) => {
-    //                 println!("({}, {}) -> {}", i, j, value);
-    //             }
-    //         };
-    //     }
-    // }
 }
 
 fn lab() {
@@ -76,6 +54,8 @@ fn lab() {
     list.insert_list(vec![2, 2]);
     list.delete_value(vec![2, 1]);
     list.delete_list(vec![5]);
+    list.delete_list(vec![8]);
+    list.delete_value(vec![8]);
     println!("{}", list);
 }
 

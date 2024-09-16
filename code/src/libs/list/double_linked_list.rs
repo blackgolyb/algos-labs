@@ -3,15 +3,15 @@ use std::{
     ptr,
 };
 
-struct Node<T> {
-    value: T,
-    prev: *mut Node<T>,
-    next: *mut Node<T>,
+pub struct Node<T> {
+    pub value: T,
+    pub prev: *mut Node<T>,
+    pub next: *mut Node<T>,
 }
 
 pub struct List<T> {
-    head: *mut Node<T>,
-    tail: *mut Node<T>,
+    pub head: *mut Node<T>,
+    pub tail: *mut Node<T>,
     len: usize,
 }
 
