@@ -13,9 +13,9 @@ macro_rules! create_pc {
             cooperative: true,
             kind: $u {
                 pc: ManuallyDrop::new($pc {
-                    filed1: 1,
-                    filed2: 2,
-                    filed3: 3,
+                    filed1: 12,
+                    filed2: !0,
+                    filed3: 26,
                 }),
             },
         }
@@ -29,8 +29,8 @@ macro_rules! create_table {
             cooperative: true,
             kind: $u {
                 table: ManuallyDrop::new($table {
-                    filed1: 1,
-                    filed2: 2,
+                    filed1: 12,
+                    filed2: !0,
                 }),
             },
         }
@@ -41,13 +41,53 @@ macro_rules! display {
     ($t:ident, $pc:ident, $table:ident) => {
         println!("{:=^30}", stringify!($t));
         println!("size of {}", size_of::<$t>());
-        print!("Bytes representation: ");
+        print!("PC bytes representation: ");
         $pc.show_bytes();
-        print!("Bytes representation: ");
-        $table.show_bytes();
+        println!();
+        print!("    for_child: ");
+        $pc.for_child.show_bytes();
+        println!();
+        print!("    cooperative: ");
+        $pc.cooperative.show_bytes();
+        println!();
+        unsafe {
+            let f1 = $pc.kind.pc.filed1;
+            let f2 = $pc.kind.pc.filed2;
+            let f3 = $pc.kind.pc.filed3;
+            print!("    filed1: ");
+            f1.show_bytes();
+            println!();
+            print!("    pc filed2: ");
+            f2.show_bytes();
+            println!();
+            print!("    pc filed3: ");
+            f3.show_bytes();
+            println!();
+        }
+
         println!();
 
-        let n = 100000;
+        print!("Table bytes representation: ");
+        $table.show_bytes();
+        println!();
+        print!("    for_child: ");
+        $pc.for_child.show_bytes();
+        println!();
+        print!("    cooperative: ");
+        $pc.cooperative.show_bytes();
+        println!();
+        unsafe {
+            let f1 = $pc.kind.table.filed1;
+            let f2 = $pc.kind.table.filed2;
+            print!("    filed1: ");
+            f1.show_bytes();
+            println!();
+            print!("    table filed2: ");
+            f2.show_bytes();
+            println!();
+        }
+
+        let n = 10000000;
 
         let now = Instant::now();
         for _ in 0..n {
@@ -57,7 +97,7 @@ macro_rules! display {
             $pc.for_child;
             $pc.cooperative;
         }
-        println!("PC time: {}", now.elapsed().as_nanos().to_string());
+        println!("PC time: {} ns  repeats: {n}", now.elapsed().as_nanos().to_string());
 
         let now = Instant::now();
         for _ in 0..n {
@@ -67,7 +107,7 @@ macro_rules! display {
             $table.for_child;
             $table.cooperative;
         }
-        println!("Table time: {} ns", now.elapsed().as_nanos().to_string());
+        println!("Table time: {} ns  repeats: {n}", now.elapsed().as_nanos().to_string());
         println!("{:=^30}\n", "");
     };
 }

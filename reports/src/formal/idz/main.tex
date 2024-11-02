@@ -1,0 +1,62 @@
+\section{Завдання}
+Для наведених прикладів ланцюжків побудувати правила граматики.
+Перевірити правильність складання правил за допомогою виведення.
+Перевірити наявність непродуктивних та недосяжних символів.
+\begin{enumerate}
+    \item \verb|struct t { int a; float c,a,c; char c;};|
+    \item \verb|struct l { int c,a; int b; };|
+    \item \verb|struct k { float c; char c; int a; };|
+\end{enumerate}
+
+
+\section{Опис граматики}
+\begin{multicols}{2}
+\begin{enumerate}
+    \item  I $\to$ struct S \{ER\};
+    \item  S $\to$ t
+    \item  S $\to$ l
+    \item  S $\to$ k
+    \item  E $\to$ T NP;
+    \item  T $\to$ int
+    \item  T $\to$ float
+    \item  T $\to$ char
+    \item  N $\to$ a
+    \item  N $\to$ b
+    \item  N $\to$ c
+    \item  P $\to$ ,NP
+    \item  P $\to$ \$
+    \item  R $\to$ ER
+    \item  R $\to$ \$
+\end{enumerate}
+\columnbreak
+\begin{enumerate}
+    \item  I $\to$ struct S \{ER\};
+    \item  S $\to$ t | l | k
+    \item  E $\to$ T NP;
+    \item  T $\to$ int | float | char
+    \item  N $\to$ a | b | c
+    \item  P $\to$ ,NP | \$
+    \item  R $\to$ ER | \$
+\end{enumerate}
+\end{multicols}
+
+
+\newpage
+\section{Перевірка граматики}
+Приклад для перевірки: \verb|struct l { int a, b; char c; };|
+
+\noindent
+I $\xrightarrow{1}$ struct S \{ER\}; \\
+$\xrightarrow{3}$ struct l \{ER\}; \\
+$\xrightarrow{5}$ struct l \{T NP; R\}; \\
+$\xrightarrow{6}$ struct l \{int NP; R\}; \\
+$\xrightarrow{9}$ struct l \{int aP; R\}; \\
+$\xrightarrow{12}$ struct l \{int a, NP; R\}; \\
+$\xrightarrow{10}$ struct l \{int a, bP; R\}; \\
+$\xrightarrow{13}$ struct l \{int a, b; R\}; \\
+$\xrightarrow{14}$ struct l \{int a, b; ER\}; \\
+$\xrightarrow{5}$ struct l \{int a, b; T NP; R\}; \\
+$\xrightarrow{8}$ struct l \{int a, b; char NP; R\}; \\
+$\xrightarrow{11}$ struct l \{int a, b; char cP; R\}; \\
+$\xrightarrow{13}$ struct l \{int a, b; char c; R\}; \\
+$\xrightarrow{15}$ struct l \{int a, b; char c;\}; \\

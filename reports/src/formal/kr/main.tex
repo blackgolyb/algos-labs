@@ -1,0 +1,57 @@
+\section{Завдання}
+Для наведених прикладів ланцюжків побудувати правила граматики.
+Перевірити правильність складання правил за допомогою виведення.
+Перевірити наявність непродуктивних та недосяжних символів:
+\begin{enumerate}
+    \item \verb|m = (a % b) / (a / c) - (a / c) - (c % b) - (a % c);|
+    \item \verb|l = (c % b) + (b / c) * (a % b) - (a / c);|
+    \item \verb|m = (a % c);|
+\end{enumerate}
+
+
+\section{Опис граматики}
+\begin{enumerate}
+    \item \verb|I| $\to$ \verb|V = ER;|
+    \item \verb|V| $\to$ \verb|a | b | ... | z|
+    \item \verb|R| $\to$ \verb|OER | \$|
+    \item \verb|O| $\to$ \verb|+ | - | * | / | \%|
+    \item \verb|E| $\to$ \verb|(VOV)|
+\end{enumerate}
+
+
+\section{Перевірка граматики}
+Приклад для перевірки: \verb|l = (a % b) + (b / c)|
+
+\begin{itemize}
+    \item[]  \verb|I|
+             \xrightarrow{1   } \verb|V = ER;|
+    \item[]  \xrightarrow{2.12} \verb|l = ER;|
+    \item[]  \xrightarrow{5   } \verb|l = (VOV)R;|
+    \item[]  \xrightarrow{2.1 } \verb|l = (aOV)R;|
+    \item[]  \xrightarrow{4.5 } \verb|l = (a\%V)R;|
+    \item[]  \xrightarrow{2.2 } \verb|l = (a\%b)R;|
+    \item[]  \xrightarrow{3.1 } \verb|l = (a\%b)OER;|
+    \item[]  \xrightarrow{4.1 } \verb|l = (a\%b)+ER;|
+    \item[]  \xrightarrow{5   } \verb|l = (a\%b)+(VOV)R;|
+    \item[]  \xrightarrow{2.2 } \verb|l = (a\%b)+(aOV)R;|
+    \item[]  \xrightarrow{4.4 } \verb|l = (a\%b)+(b/V)R;|
+    \item[]  \xrightarrow{2.3 } \verb|l = (a\%b)+(b/c)R;|
+    \item[]  \xrightarrow{3.2 } \verb|l = (a\%b)+(b/c);|
+\end{itemize}
+
+
+\newpage
+\subsection{Перевірка на непродуктивність}
+\begin{enumerate}
+    \item  T N P X
+    \item  T N P X E R I
+    \item  нема непродуктивних символів
+\end{enumerate}
+
+\subsection{Перевірка на недосяжність}
+\begin{enumerate}
+    \item  I
+    \item  I T N E R
+    \item  I T N E R P X
+    \item  нема недосяжних символів
+\end{enumerate}

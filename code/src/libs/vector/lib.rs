@@ -1,11 +1,12 @@
-use core::fmt;
 use std::alloc::{self, Layout};
-use std::fmt::Display;
 use std::marker::PhantomData;
 use std::mem;
 use std::ops::{Deref, DerefMut};
 use std::ptr::{self, NonNull};
 
+use super::super::utils::clamp_range;
+
+#[derive(Debug)]
 struct RawVector<T> {
     ptr: NonNull<T>,
     cap: usize,
@@ -27,11 +28,25 @@ impl<T> RawVector<T> {
     }
 
     fn grow(&mut self) {
+        self.grow_with_capacity(None);
+    }
+
+    fn grow_with_capacity(&mut self, capacity: Option<usize>) {
         // since we set the capacity to usize::MAX when T has size 0,
         // getting to here necessarily means the Vector is overfull.
         assert!(mem::size_of::<T>() != 0, "capacity overflow");
 
-        let (new_cap, new_layout) = if self.cap == 0 {
+        let (new_cap, new_layout) = if capacity.is_some() {
+            assert!(
+                capacity.unwrap() > self.cap,
+                "new capacity musp be bigger than current capacity"
+            );
+
+            let new_cap = capacity.unwrap();
+
+            let new_layout = Layout::array::<T>(new_cap).unwrap();
+            (new_cap, new_layout)
+        } else if self.cap == 0 {
             (1, Layout::array::<T>(1).unwrap())
         } else {
             // This can't overflow because we ensure self.cap <= isize::MAX.
@@ -65,6 +80,22 @@ impl<T> RawVector<T> {
         };
         self.cap = new_cap;
     }
+
+    fn slice(&self, start: usize, end: usize) -> Self {
+        let len = end - start;
+        let mut new_vec = Self::new();
+        new_vec.grow_with_capacity(Some(len));
+        
+        unsafe {
+            ptr::copy_nonoverlapping(
+                self.ptr.as_ptr().add(start),
+                new_vec.ptr.as_ptr(),
+                len,
+            );
+        }
+
+        new_vec
+    }
 }
 
 impl<T> Drop for RawVector<T> {
@@ -82,6 +113,22 @@ impl<T> Drop for RawVector<T> {
     }
 }
 
+impl<T: Clone> Clone for RawVector<T> {
+    fn clone(&self) -> Self {
+        let mut new_vec = RawVector::new();
+        if self.cap != 0 {
+            new_vec.grow_with_capacity(Some(self.cap)); 
+
+            unsafe {
+                ptr::copy_nonoverlapping(self.ptr.as_ptr(), new_vec.ptr.as_ptr(), self.cap);
+            }
+        }
+
+        new_vec
+    }
+}
+
+#[derive(Debug, Clone)]
 pub struct Vector<T> {
     buf: RawVector<T>,
     len: usize,
@@ -102,6 +149,19 @@ impl<T> Vector<T> {
             len: 0,
         }
     }
+
+    pub fn with_capacity(capacity: usize) -> Self {
+        let mut v = Self::new();
+        if capacity > 0 {
+            v.buf.grow_with_capacity(Some(capacity));
+        }
+        v
+    }
+
+    pub fn grow_to(&mut self, capacity: usize) {
+        self.buf.grow_with_capacity(Some(capacity));
+    }
+
     pub fn push(&mut self, elem: T) {
         if self.len == self.cap() {
             self.buf.grow();
@@ -170,6 +230,25 @@ impl<T> Vector<T> {
             iter,
             vector: PhantomData,
         }
+    }
+
+    pub fn slice(&self, start: i64, end: i64) -> Self {
+        let (start, end) = clamp_range(self.len(), start, end);
+
+        if start >= end {
+            return Self::new();
+        }
+
+        let vec = self.buf.slice(start as usize, end as usize);
+
+        Self {
+            buf: vec,
+            len: (end - start) as usize,
+        }
+    }
+
+    pub fn full_size(&self) -> usize {
+        self.buf.cap * mem::size_of::<T>() + mem::size_of::<Self>()
     }
 }
 

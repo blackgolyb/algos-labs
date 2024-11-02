@@ -1,0 +1,75 @@
+\section{Завдання}
+Для наведених прикладів ланцюжків побудувати правила граматики.
+Перевірити правильність складання правил за допомогою виведення.
+Перевірити наявність непродуктивних та недосяжних символів:
+
+\begin{enumerate}
+    \item \verb|void main ( ) { cout << "i"; cout << c; }|
+    \item \verb|main (void ) { cout << c; }|
+    \item \verb|main ( ){ cout << i; cout << c; cout << i ; сout << c; }|
+\end{enumerate}
+
+\section{Опис граматикиn}
+\begin{enumerate}
+    \item  \verb|I| $\to$ \verb|T main(T) {ER}|
+    \item  \verb|T| $\to$ \verb|void|
+    \item  \verb|T| $\to$ \verb|$|
+    \item  \verb|E| $\to$ \verb|cout << V;|
+    \item  \verb|E| $\to$ \verb|cout << "V";|
+    \item  \verb|V| $\to$ \verb|i|
+    \item  \verb|V| $\to$ \verb|c|
+    \item  \verb|R| $\to$ \verb|ER|
+    \item  \verb|R| $\to$ \verb|$|
+\end{enumerate}
+
+
+\newpage
+\section{Перевірка граматики}
+Приклад для перевірки: \verb|main (void) { cout << "c"; }|
+\begin{itemize}
+    \item[]  I $\xrightarrow{1}$ \verb|T main(T) {ER}|
+    \item[]  $\xrightarrow{3}$ \verb|main(T) {ER}|
+    \item[]  $\xrightarrow{2}$ \verb|main(void) {ER}|
+    \item[]  $\xrightarrow{5}$ \verb|main(void) { cout << "V"; R }|
+    \item[]  $\xrightarrow{7}$ \verb|main(void) { cout << "c"; R }|
+    \item[]  $\xrightarrow{9}$ \verb|main(void) { cout << "c"; }|
+\end{itemize}
+
+\section{Перевірка на непродуктивність}
+\begin{enumerate}
+    \item  T V R
+    \item  T V R E I
+    \item  нема непродуктивних символів
+\end{enumerate}
+
+\section{Перевірка на недосяжність}
+\begin{enumerate}
+    \item  I
+    \item  I T E R
+    \item  I T E R V
+    \item  нема недосяжних символів
+\end{enumerate}
+
+
+\newpage
+\section{Побудова функції ПЕРШ}
+\begin{itemize}
+    \item  ПЕРШ(\verb|I| $\to$ \verb|T main(T) {ER}|)    = ПЕРШ(\verb|T|) = \{\verb|void|, \verb|$|\}
+    \item  ПЕРШ(\verb|T| $\to$ \verb|void|)              = \{\verb|void|\}
+    \item  ПЕРШ(\verb|T| $\to$ \verb|$|)                 = \{\verb|$|\}
+    \item  ПЕРШ(\verb|E| $\to$ \verb|cout << V;|)        = \{\verb|cout|\}
+    \item  ПЕРШ(\verb|E| $\to$ \verb|cout << "V";|)      = \{\verb|cout|\}
+    \item  ПЕРШ(\verb|V| $\to$ \verb|i|)                 = \{\verb|i|\}
+    \item  ПЕРШ(\verb|V| $\to$ \verb|c|)                 = \{\verb|c|\}
+    \item  ПЕРШ(\verb|R| $\to$ \verb|ER|)                = ПЕРШ(\verb|E|) = \{\verb|cout|\}
+    \item  ПЕРШ(\verb|R| $\to$ \verb|$|)                 = \{\verb|cout|\}
+\end{itemize}
+
+\section{Побудова функції СЛІД}
+\begin{itemize}
+    \item  СЛІД(\verb|I|) = \{\verb|$|\}
+    \item  СЛІД(\verb|T|) = \{\verb|main|, \verb|)|\}
+    \item  СЛІД(\verb|E|) = СЛІД(\verb|R|) = \{\verb|}|\} $\cup$ ПЕРШ(\verb|R|) = \{\verb|}|, \verb|cout|\}
+    \item  СЛІД(\verb|V|) = \{\verb|"|, \verb|;|\}
+    \item  СЛІД(\verb|R|) = \{\verb|}|\}
+\end{itemize}

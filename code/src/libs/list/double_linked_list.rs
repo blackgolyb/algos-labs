@@ -133,7 +133,25 @@ impl<T> List<T> {
         }
     }
 
-    pub fn get(&mut self, mut index: i64) -> Option<&mut T> {
+    pub fn get(&self, mut index: i64) -> Option<&T> {
+        if index < 0 {
+            index = self.len as i64 + index;
+        }
+
+        if index >= self.len as i64 {
+            return None;
+        }
+
+        unsafe {
+            let mut node = self.head;
+            for _ in 0..index {
+                node = (*node).next;
+            }
+            return Some(&mut (*node).value);
+        }
+    }
+
+    pub fn get_mut(&mut self, mut index: i64) -> Option<&mut T> {
         if index < 0 {
             index = self.len as i64 + index;
         }

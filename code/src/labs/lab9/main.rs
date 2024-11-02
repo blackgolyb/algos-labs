@@ -2,9 +2,9 @@ use csv::Writer;
 
 use crate::libs::list::double_linked_list::List;
 
-use super::logger::{Logger, Metrics};
-use super::variants::binary_search;
-use super::variants::linear_search;
+use crate::libs::search::binary_search;
+use crate::libs::search::linear_search;
+use crate::libs::search::logger::{Logger, Metrics};
 
 fn test(n: usize, elem: i64) -> (Metrics, Option<usize>, Metrics, Option<usize>) {
     let mut list = List::<i64>::new();
@@ -24,16 +24,18 @@ fn test(n: usize, elem: i64) -> (Metrics, Option<usize>, Metrics, Option<usize>)
 
 pub fn main() {
     let out_file = "perf_lab9.csv".to_string();
-    let test_cases: Vec<usize> = vec![20, 100, 1000, 10000, 100000, 1000000, 10000000];
-    let elem_rate = 0.6666666;
+    let test_cases: Vec<usize> = vec![20, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000];
+    let elem_rate = 0.66666666;
     // let elem_rate = 0.1;
 
     let mut wtr = Writer::from_path(out_file).unwrap();
     wtr.write_record(&[
         "n",
         "linear_compares",
+        "linear_shifts",
         "linear_time",
         "binary_compares",
+        "binary_shifts",
         "binary_time",
     ])
     .unwrap();
@@ -45,13 +47,15 @@ pub fn main() {
         println!("Linear Search: Found: {r1:?} -- {m1}");
         println!("Binary Search: Found: {r2:?} -- {m2}\n");
 
-        let Metrics(c1, t1) = m1;
-        let Metrics(c2, t2) = m2;
+        let Metrics(c1, s1, t1) = m1;
+        let Metrics(c2, s2, t2) = m2;
         wtr.write_record(&[
             n.to_string(),
             c1.to_string(),
+            s1.to_string(),
             t1.as_nanos().to_string(),
             c2.to_string(),
+            s2.to_string(),
             t2.as_nanos().to_string(),
         ])
         .unwrap();

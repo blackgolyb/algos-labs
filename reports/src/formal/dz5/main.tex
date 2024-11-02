@@ -1,0 +1,89 @@
+\section{Завдання 1}
+\subsection{Завдання}
+Для наведених прикладів ланцюжків побудувати правила граматики.
+\begin{enumerate}
+    \item \verb|a; b! a? c;|
+    \item \verb|b; s!|
+    \item \verb|c? b; a! c;|
+\end{enumerate}
+Синтаксичний розбір
+\begin{enumerate}
+    \item \verb|a; b! c;|
+    \item \verb|a;;c! b?|
+\end{enumerate}
+
+\subsection{Опис граматикиn}
+\begin{enumerate}
+    \item  I $\to$ NSR
+    \item  N $\to$ a
+    \item  N $\to$ b
+    \item  N $\to$ c
+    \item  N $\to$ s
+    \item  S $\to$ ;
+    \item  S $\to$ !
+    \item  S $\to$ ?
+    \item  R $\to$ NSR
+    \item  R $\to$ \$
+\end{enumerate}
+
+
+\newpage
+\subsection{Перевірка граматики}
+Приклад для перевірки: \verb|a; b! c;|
+\begin{itemize}
+    \item[]  I $\xrightarrow{1}$ NSR
+    \item[]  $\xrightarrow{2}$ aSR
+    \item[]  $\xrightarrow{6}$ a; R
+    \item[]  $\xrightarrow{9}$ a; NSR
+    \item[]  $\xrightarrow{3}$ a; bSR
+    \item[]  $\xrightarrow{7}$ a; b! R
+    \item[]  $\xrightarrow{9}$ a; b! NSR
+    \item[]  $\xrightarrow{4}$ a; b! cSR
+    \item[]  $\xrightarrow{6}$ a; b! c;R
+    \item[]  $\xrightarrow{10}$ a; b! c;
+\end{itemize}
+
+\newpage
+\section{Завдання 2}
+\subsection{Завдання}
+Для наведених прикладів ланцюжків побудувати правила граматики.
+Перевірити правильність складання правил за допомогою виводу.
+\begin{enumerate}
+    \item \verb|{m = f(a, b, a); l = f(a, a); m = f(a, a, a); m = f(a, b, a);}|
+    \item \verb|{l = f(a); m = f(a, a, a); m = f(a, a, a);}|
+    \item \verb|{l = f(a, b, a, a); }|
+\end{enumerate}
+
+\subsection{Опис граматикиn}
+\begin{enumerate}
+    \item  I $\to$ \{ER\}
+    \item  E $\to$ D = f(VP);
+    \item  D $\to$ m
+    \item  D $\to$ l
+    \item  V $\to$ a
+    \item  V $\to$ b
+    \item  P $\to$ ,VP
+    \item  P $\to$ \$
+    \item  R $\to$ ER
+    \item  R $\to$ \$
+\end{enumerate}
+
+
+\newpage
+\subsection{Перевірка граматики}
+Приклад для перевірки: \verb|{m = f(a, b); l = f(b);}|
+\begin{itemize}
+    \item[]  I $\xrightarrow{1}$ \{ER\}
+    \item[]  $\xrightarrow{2}$ \{D = f(VP); R\}
+    \item[]  $\xrightarrow{3}$ \{m = f(VP); R\}
+    \item[]  $\xrightarrow{5}$ \{m = f(aP); R\}
+    \item[]  $\xrightarrow{7}$ \{m = f(a, VP); R\}
+    \item[]  $\xrightarrow{6}$ \{m = f(a, bP); R\}
+    \item[]  $\xrightarrow{8}$ \{m = f(a, b); R\}
+    \item[]  $\xrightarrow{9}$ \{m = f(a, b); ER\}
+    \item[]  $\xrightarrow{2}$ \{m = f(a, b); D = f(VP); R\}
+    \item[]  $\xrightarrow{4}$ \{m = f(a, b); l = f(VP); R\}
+    \item[]  $\xrightarrow{6}$ \{m = f(a, b); l = f(bP); R\}
+    \item[]  $\xrightarrow{8}$ \{m = f(a, b); l = f(b); R\}
+    \item[]  $\xrightarrow{10}$ \{m = f(a, b); l = f(b);\}
+\end{itemize}

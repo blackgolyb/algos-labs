@@ -1,7 +1,3 @@
-use cache_macro::cache;
-use lru_cache::LruCache;
-
-#[cache(LruCache : LruCache::new(1000))]
 fn binome(n: u64, k: u64) -> u64 {
     if n == 0 || k == 0 || k == n {
         return 1;

@@ -1,0 +1,92 @@
+\section{Завдання 3}
+\subsection{Завдання}
+Для наведених прикладів ланцюжків побудувати правила граматики. 
+Перевірити правильність складання правил за допомогою виведення. 
+\begin{enumerate}
+    \item \verb|{++a; --a; b--; b++}|
+    \item \verb|{++a; --b; c--; d++}|
+    \item \verb|{a++}|
+\end{enumerate}
+
+
+\subsection{Опис правил граматики}
+\begin{enumerate}
+    \item $I \to {ER} $
+    \item $V \to a | b | ... | z $
+    \item $O \to ++ | -- $
+    \item $E \to OV | VO$
+    \item $R \to ;ER | \$ $
+\end{enumerate}
+
+
+\subsection{Перевірка граматики}
+Приклад для перевірки: \verb|{b--; a++}|
+
+$$
+I \xrightarrow{1} \{ER\}
+\xrightarrow{4} \{VOR\}
+$$
+$$
+\xrightarrow{2.2} \{bOR\}
+\xrightarrow{3.2} \{b--R\}
+\xrightarrow{5.1} \{b--; VOR\}
+$$
+$$
+\xrightarrow{2.1} \{b--; aOR\}
+\xrightarrow{3.1} \{b--; a++R\}
+\xrightarrow{5.2} \{b++; a++\}
+$$
+
+
+
+\section{Завдання 4}
+\subsection{Завдання}
+Для наведених прикладів ланцюжків побудувати правила граматики. 
+Перевірити правильність складання правил за допомогою виведення. 
+\begin{enumerate}
+    \item \verb|int a(int i, &j, i)|
+    \item \verb|foat b(float *i, i, &i, j)|
+    \item \verb|float a(int j, i, i, i)|
+\end{enumerate}
+
+
+\subsection{Опис правил граматики}
+\begin{enumerate}
+    \item $I \to TV(TER) $
+    \item $T \to int | float $
+    \item $V \to a | b | ... | z $
+    \item $S \to * | & | \$ $
+    \item $E \to SV$
+    \item $R \to ,ER | \$ $
+\end{enumerate}
+
+
+\subsection{Перевірка граматики}
+Приклад для перевірки: \verb|float a(int j, i, *i)|
+
+$$
+I \xrightarrow{1} \{ER\}
+\xrightarrow{4} \{VOR\}
+$$
+$$
+\xrightarrow{2.2} \{bOR\}
+\xrightarrow{3.2} \{b--R\}
+\xrightarrow{5.1} \{b--; VOR\}
+$$
+$$
+\xrightarrow{2.1} \{b--; aOR\}
+\xrightarrow{3.1} \{b--; a++R\}
+\xrightarrow{5.2} \{b++; a++\}
+$$
+
+
+Приклад для перевірки: \verb|float a(int j, i, *i)|
+
+
+
+% I -> T main(T) {OR}
+% T -> void | $
+% O -> cout<<S;
+% R -> OR | $
+% S -> V | "V"
+% V -> i | c

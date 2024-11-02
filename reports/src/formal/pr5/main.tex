@@ -1,0 +1,181 @@
+\section{Завдання 1}
+\subsection{Завдання}
+Побудувати правила граматики. перевірити на непродуктивні та недосяжні символи
+\begin{enumerate}
+    \item \verb|int a (int i, &j, i);|
+    \item \verb|float b (float *i, i, &i, j);|
+    \item \verb|float a (int j, i, *i, i);|
+\end{enumerate}
+Перевірити ланцюжок на належність до заданої граматики і записати синтаксичний розбір: \verb|int a (int i, &j, i);|
+
+
+\subsection{Опис граматикиn}
+\begin{enumerate}
+    \item  I $\to$ \verb|TN(TER);|
+    \item  T $\to$ \verb|int|
+    \item  T $\to$ \verb|float|
+    \item  N $\to$ \verb|a|
+    \item  N $\to$ \verb|b|
+    \item  E $\to$ \verb|PX|
+    \item  P $\to$ \verb|*|
+    \item  P $\to$ \verb|&|
+    \item  P $\to$ \verb|$|
+    \item  X $\to$ \verb|i|
+    \item  X $\to$ \verb|j|
+    \item  R $\to$ \verb|,ER|
+    \item  R $\to$ \verb|$|
+\end{enumerate}
+
+
+\newpage
+\subsection{Перевірка граматики}
+Приклад для перевірки: \verb|int a (int i, &j, i);|
+\begin{itemize}
+    \item[]  I $\xrightarrow{1}$ \verb|TN(TER);|
+    \item[]  $\xrightarrow{2}$ \verb|int N(TER);|
+    \item[]  $\xrightarrow{4}$ \verb|int a (TER);|
+    \item[]  $\xrightarrow{2}$ \verb|int a (int ER);|
+    \item[]  $\xrightarrow{6}$ \verb|int a (int PXR);|
+    \item[]  $\xrightarrow{9}$ \verb|int a (int XR);|
+    \item[]  $\xrightarrow{10}$ \verb|int a (int iR);|
+    \item[]  $\xrightarrow{12}$ \verb|int a (int i, ER);|
+    \item[]  $\xrightarrow{6}$ \verb|int a (int i, PXR);|
+    \item[]  $\xrightarrow{8}$ \verb|int a (int i, &XR);|
+    \item[]  $\xrightarrow{11}$ \verb|int a (int i, &jR);|
+    \item[]  $\xrightarrow{12}$ \verb|int a (int i, &j, ER);|
+    \item[]  $\xrightarrow{6}$ \verb|int a (int i, &j, PXR);|
+    \item[]  $\xrightarrow{9}$ \verb|int a (int i, &j, XR);|
+    \item[]  $\xrightarrow{10}$ \verb|int a (int i, &j, iR);|
+    \item[]  $\xrightarrow{13}$ \verb|int a (int i, &j, i);|
+\end{itemize}
+
+
+\newpage
+\subsection{Перевірка на непродуктивність}
+\begin{enumerate}
+    \item  T N P X
+    \item  T N P X E R I
+    \item  нема непродуктивних символів
+\end{enumerate}
+
+\subsection{Перевірка на недосяжність}
+\begin{enumerate}
+    \item  I
+    \item  I T N E R
+    \item  I T N E R P X
+    \item  нема недосяжних символів
+\end{enumerate}
+
+
+
+
+\newpage
+\section{Завдання 2}
+\subsection{Завдання}
+Побудувати правила граматики. перевірити на непродуктивні та недосяжні символи
+\begin{enumerate}
+    \item \verb|void main () { cout <<"i"; cout << c; }|
+    \item \verb|main (void) { cout << c; }|
+    \item \verb|main() { cout << i; cout << c; cout<< i; cout << c; }|
+\end{enumerate}
+
+\subsection{Опис граматикиn}
+\begin{enumerate}
+    \item  I $\to$ \verb|T main(T) {ER}|
+    \item  T $\to$ \verb|void|
+    \item  T $\to$ \verb|$|
+    \item  E $\to$ \verb|cout << V;|
+    \item  E $\to$ \verb|cout << "V";|
+    \item  V $\to$ \verb|i|
+    \item  V $\to$ \verb|c|
+    \item  R $\to$ \verb|ER|
+    \item  R $\to$ \verb|$|
+\end{enumerate}
+
+
+\newpage
+\subsection{Перевірка граматики}
+Приклад для перевірки: \verb|main (void) { cout << "c"; }|
+\begin{itemize}
+    \item[]  I $\xrightarrow{1}$ \verb|T main(T) {ER}|
+    \item[]  $\xrightarrow{3}$ \verb|main(T) {ER}|
+    \item[]  $\xrightarrow{2}$ \verb|main(void) {ER}|
+    \item[]  $\xrightarrow{5}$ \verb|main(void) { cout << "V"; R }|
+    \item[]  $\xrightarrow{7}$ \verb|main(void) { cout << "c"; R }|
+    \item[]  $\xrightarrow{9}$ \verb|main(void) { cout << "c"; }|
+\end{itemize}
+
+\subsection{Перевірка на непродуктивність}
+\begin{enumerate}
+    \item  T V R
+    \item  T V R E I
+    \item  нема непродуктивних символів
+\end{enumerate}
+
+\subsection{Перевірка на недосяжність}
+\begin{enumerate}
+    \item  I
+    \item  I T E R
+    \item  I T E R V
+    \item  нема недосяжних символів
+\end{enumerate}
+
+
+
+
+\newpage
+\section{Завдання 3 (Домашнє завдання)}
+\subsection{Завдання}
+Побудувати правила граматики. перевірити на непродуктивні та недосяжні символи
+\begin{enumerate}
+    \item \verb|#include<a> #include<b.h> #include<b.h>|
+    \item \verb|#include<a.h> #include<b.h> #include<b.h>|
+    \item \verb|#include<b.h> #include<b> #include<b.h>|
+\end{enumerate}
+
+\subsection{Опис граматикиn}
+\begin{enumerate}
+    \item  I $\to$ \verb|ER|
+    \item  E $\to$ \verb|#include<NH>|
+    \item  N $\to$ \verb|a|
+    \item  N $\to$ \verb|b|
+    \item  H $\to$ \verb|.h|
+    \item  H $\to$ \verb|$|
+    \item  R $\to$ \verb|ER|
+    \item  R $\to$ \verb|$|
+\end{enumerate}
+
+
+\newpage
+\subsection{Перевірка граматики}
+Приклад для перевірки: \verb|#include <a> #include <b.h> #include <b.h>|
+\begin{itemize}
+    \item[]  I $\xrightarrow{1}$ \verb|ER|
+    \item[]  $\xrightarrow{2}$ \verb|#include<NH>R|
+    \item[]  $\xrightarrow{3}$ \verb|#include<aH>R|
+    \item[]  $\xrightarrow{6}$ \verb|#include<a>R|
+    \item[]  $\xrightarrow{7}$ \verb|#include<a> ER|
+    \item[]  $\xrightarrow{2}$ \verb|#include<a> #include<NH>R|
+    \item[]  $\xrightarrow{4}$ \verb|#include<a> #include<bH>R|
+    \item[]  $\xrightarrow{5}$ \verb|#include<a> #include<b.h>R|
+    \item[]  $\xrightarrow{7}$ \verb|#include<a> #include<b.h> ER|
+    \item[]  $\xrightarrow{2}$ \verb|#include<a> #include<b.h> #include<NH>R|
+    \item[]  $\xrightarrow{4}$ \verb|#include<a> #include<b.h> #include<bH>R|
+    \item[]  $\xrightarrow{5}$ \verb|#include<a> #include<b.h> #include<b.h>R|
+    \item[]  $\xrightarrow{8}$ \verb|#include<a> #include<b.h> #include<b.h>|
+\end{itemize}
+
+\subsection{Перевірка на непродуктивність}
+\begin{enumerate}
+    \item  N H R
+    \item  N H R E I
+    \item  нема непродуктивних символів
+\end{enumerate}
+
+\subsection{Перевірка на недосяжність}
+\begin{enumerate}
+    \item  I
+    \item  I E R
+    \item  I E R N H
+    \item  нема недосяжних символів
+\end{enumerate}

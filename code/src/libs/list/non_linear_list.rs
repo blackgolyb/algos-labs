@@ -91,7 +91,7 @@ impl<'a, T> MultiList<T> {
                 return None;
             }
 
-            let tmp = (*node.1).get(indices[level] as i64);
+            let tmp = (*node.1).get_mut(indices[level] as i64);
             if tmp.is_none() {
                 return None;
             }
@@ -169,7 +169,7 @@ impl<T> MultiList<T> {
                 (*list).push(Self::new_void_node());
             }
 
-            let next = (*list).get(index);
+            let next = (*list).get_mut(index);
             if next.is_none() {
                 return;
             }
@@ -258,7 +258,7 @@ impl<T: Display> MultiList<T> {
 
         let list = unsafe { &mut (*node.1) };
         for i in 0..(list.len() as i64 - 1) {
-            display_node!(f, "None, ", "{}, ", "[], ", "{}+[], ", list.get(i));
+            display_node!(f, "None, ", "{}, ", "[], ", "{}+[], ", list.get_mut(i));
         }
 
         if list.len() > 0 {
@@ -268,7 +268,7 @@ impl<T: Display> MultiList<T> {
                 "{}",
                 "[]",
                 "{}+[]",
-                list.get(list.len() as i64 - 1)
+                list.get_mut(list.len() as i64 - 1)
             );
         }
 
@@ -293,7 +293,7 @@ impl<T: Display> MultiList<T> {
         let list = unsafe { &mut (*parent.1) };
 
         for i in 0..list.len() {
-            let node = list.get(i as i64);
+            let node = list.get_mut(i as i64);
             if node.is_none() {
                 continue;
             }

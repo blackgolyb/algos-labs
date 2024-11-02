@@ -22,7 +22,7 @@ fn present() {
 }
 
 fn lab() {
-    let mut list = match MultiList::<String>::new(Some(2), None) {
+    let mut list = match MultiList::<String>::new(None, None) {
         Ok(list) => list,
         Err(_) => {
             panic!("Cannot create list")
@@ -33,7 +33,7 @@ fn lab() {
         let station = format!("Path {i}");
         list.insert_value(vec![i], station);
         for j in 0..=i {
-            let parh = format!("Staton {j}");
+            let parh = format!("Station {j}");
             list.insert_value(vec![i, j], parh);
         }
     }
@@ -51,9 +51,11 @@ fn lab() {
     println!("\n");
 
     println!("{}", list);
-    list.insert_list(vec![2, 2]);
+    list.insert_value(vec![2, 2, 2], "description 2".into());
+    list.insert_value(vec![2, 2, 0], "description 1".into());
     list.delete_value(vec![2, 1]);
-    list.delete_list(vec![5]);
+    list.delete_list(vec![6]);
+    list.delete_value(vec![7]);
     list.delete_list(vec![8]);
     list.delete_value(vec![8]);
     println!("{}", list);
