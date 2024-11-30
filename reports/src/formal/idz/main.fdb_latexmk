@@ -1,0 +1,12 @@
+# Fdb version 4
+["pdflatex"] 1731361082.41612 "/home/blackgolyb/Documents/algos/reports/src/formal/idz/main.tex" "main.pdf" "main" 1731361082.74479 2
+  "/home/blackgolyb/Documents/algos/reports/src/formal/idz/main.tex" 1731361082.30075 10473 20dfadb12f022d01ccfa499b59ee38cb ""
+  "/usr/share/texmf-dist/web2c/texmf.cnf" 1716849630 41588 b43d3e860a4f94167ee1e725ff526a72 ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1728564066 8555678 63900c78a3ea1bccabc07cc978cc6f17 ""
+  "main.aux" 1731271125.0411 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "main.tex" 1731361082.30075 10473 20dfadb12f022d01ccfa499b59ee38cb ""
+  (generated)
+  "main.aux"
+  "main.log"
+  "main.pdf"
+  (rewritten before read)

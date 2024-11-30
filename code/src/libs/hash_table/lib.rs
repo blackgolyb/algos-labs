@@ -9,7 +9,7 @@ type EntryRef<K, V> = Rc<RefCell<Entry<K, V>>>;
 
 struct Entry<K, V>
 where
-    K: Hash + PartialEq,
+    K: Hash + Eq,
 {
     key: K,
     value: Rc<RefCell<V>>,
@@ -18,14 +18,14 @@ where
 
 pub struct HashTable<K, V>
 where
-    K: Hash + PartialEq,
+    K: Hash + Eq,
 {
     buckets: Vec<Option<EntryRef<K, V>>>,
 }
 
 impl<K, V> HashTable<K, V>
 where
-    K: Hash + PartialEq,
+    K: Hash + Eq,
 {
     pub fn new() -> Self {
         Self::new_with_capacity(255)
@@ -146,7 +146,7 @@ where
 
 impl<K, V> fmt::Display for HashTable<K, V>
 where
-    K: Hash + PartialEq,
+    K: Hash + Eq,
     K: fmt::Display,
     V: fmt::Display,
 {

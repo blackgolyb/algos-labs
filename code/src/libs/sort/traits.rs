@@ -1,4 +1,4 @@
-use super::logger::Logger;
+use super::logger::{Logger, Metrics};
 
 pub trait AsIndex {
     fn as_index(&self) -> usize;
@@ -6,6 +6,10 @@ pub trait AsIndex {
 
 pub trait SortLogging {
     fn logger(&mut self) -> &mut Logger;
+
+    fn get_metrics(&mut self) -> Metrics {
+        self.logger().get_metrics()
+    }
 
     fn log_swap(&mut self) {
         self.logger().log_swap();

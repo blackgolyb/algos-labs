@@ -7,6 +7,7 @@ def lab9():
     bc = []
     lt = []
     bt = []
+    tt = []
 
     with open("perf_lab9.csv", newline="") as csvfile:
         reader = csv.DictReader(csvfile)
@@ -16,6 +17,7 @@ def lab9():
             bc.append(int(row["binary_compares"]))
             lt.append(int(row["linear_time"]))
             bt.append(int(row["binary_time"]))
+            tt.append(int(row["table_time"]))
 
     plot = lambda y, name: plt.plot(n, y, label=name)
 
@@ -29,6 +31,7 @@ def lab9():
 
     plot(lt, "Лінійний пошук")
     plot(bt, "Бінарний пошук")
+    plot(tt, "Таблиця прямого доступу")
     plt.title("Час пошуку (наносекунди) ")
     plt.xlabel("Кількість елементів")
     plt.ylabel("Час пошуку (наносекунди) ")

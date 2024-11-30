@@ -85,22 +85,22 @@ def pows_2_grid(x, y):
 
 
 def main():
-    n = 1050
+    n = 1000
     # n = 100
     bases = np.arange(2, 257)
     sizes = np.arange(8, n)
     np.random.seed(seed=2134)
-    numbers = np.random.randint(0, 18_446_744_073_709_551_615 // 2 - 1, n * 5)
+    # numbers = np.random.randint(0, 18_446_744_073_709_551_615 // 2 - 1, n * 5)
 
-    # with open("test.npy", "rb") as f:
-    #     res = np.load(f)
+    with open("test.npy", "rb") as f:
+        res = np.load(f)
 
-    res = test(bases, sizes, numbers)
+    # res = test(bases, sizes, numbers)
 
-    with open("test.npy", "wb") as f:
-        np.save(f, res)
+    # with open("test.npy", "wb") as f:
+    #     np.save(f, res)
 
-    # res = np.log10(res)
+    res = np.log10(res)
 
     X, Y = np.meshgrid(sizes, bases)
     # ax = plt.axes(projection='3d')
@@ -109,6 +109,8 @@ def main():
     primes = primes_grid(sizes, bases)
     pows_2 = pows_2_grid(sizes, bases)
 
+    plt.ylabel("base")
+    plt.xlabel("size")
     plt.contourf(
         X,
         Y,

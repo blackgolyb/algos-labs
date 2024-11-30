@@ -1,0 +1,198 @@
+\section{Завдання}
+\noindent
+1. Для наведених прикладів ланцюжків побудувати правила граматики.
+Перевірити правильність складання правил за допомогою виведення.
+Перевірити наявність непродуктивних та недосяжних символів:
+
+\begin{enumerate}
+    \item \verb|struct t { int a; float c,a,c; char c;};|
+    \item \verb|struct l { int c,a; int b; };|
+    \item \verb|struct k { float c; char c; int a; };|
+\end{enumerate}
+
+\noindent
+2. Визначити візуально якого класу належить побудована граматика:
+\begin{itemize}
+    \item Проста
+    \item Слабкорозділена
+    \item LL - граматика
+\end{itemize}
+
+\noindent
+3. Якщо граматики не є простою, то побудувати функції ПЕРШ(), СЛІД()
+і множину ВИБІР. Для заданої граматики збудувати команди розпізнавача.
+
+\noindent
+4. Роботу розпізнавача перевірити на прикладі розпізнавання ланцюжка.
+
+
+\newpage
+\section{Побудова правил граматики}
+\begin{enumerate}
+    \item  \verb|I| $\to$ \verb|struct N { ER };|
+    \item  \verb|N| $\to$ \verb|a|
+    \item  \verb|N| $\to$ \verb|b|
+    \item  \verb|N| $\to$ \verb|c|
+    \item  \verb|N| $\to$ \verb|t|
+    \item  \verb|N| $\to$ \verb|l|
+    \item  \verb|N| $\to$ \verb|k|
+    \item  \verb|T| $\to$ \verb|int|
+    \item  \verb|T| $\to$ \verb|float|
+    \item  \verb|T| $\to$ \verb|char|
+    \item  \verb|E| $\to$ \verb|TNP;|
+    \item  \verb|R| $\to$ \verb|ER|
+    \item  \verb|R| $\to$ \verb|$|
+    \item  \verb|P| $\to$ \verb|,NP|
+    \item  \verb|P| $\to$ \verb|$|
+\end{enumerate}
+
+
+\newpage
+\section{Перевірка правил граматики}
+Приклад для перевірки: \verb|struct k { int a,b; char c; };|
+\begin{itemize}
+    \item[]  I $\xrightarrow{1}$ \verb|struct N { ER };|
+    \item[]  $\xrightarrow{7}$   \verb|struct k { ER };|
+    \item[]  $\xrightarrow{11}$  \verb|struct k { TNP;R };|
+    \item[]  $\xrightarrow{8}$   \verb|struct k { int NP;R };|
+    \item[]  $\xrightarrow{2}$   \verb|struct k { int aP;R };|
+    \item[]  $\xrightarrow{14}$  \verb|struct k { int a,NP;R };|
+    \item[]  $\xrightarrow{3}$   \verb|struct k { int a,bP;R };|
+    \item[]  $\xrightarrow{15}$  \verb|struct k { int a,b;R };|
+    \item[]  $\xrightarrow{12}$  \verb|struct k { int a,b; ER };|
+    \item[]  $\xrightarrow{11}$  \verb|struct k { int a,b; TNP;R };|
+    \item[]  $\xrightarrow{10}$  \verb|struct k { int a,b; char NP;R };|
+    \item[]  $\xrightarrow{4}$   \verb|struct k { int a,b; char cP;R };|
+    \item[]  $\xrightarrow{15}$  \verb|struct k { int a,b; char c;R };|
+    \item[]  $\xrightarrow{13}$  \verb|struct k { int a,b; char c; };|
+\end{itemize}
+
+\newpage
+\section{Перевірка на непродуктивність}
+\begin{enumerate}
+    \item[]  N T R P
+    \item[]  N T R P E I
+    \item[]  нема непродуктивних символів
+\end{enumerate}
+
+\section{Перевірка на недосяжність}
+\begin{enumerate}
+    \item[]  I
+    \item[]  I N E R
+    \item[]  I N E R T P
+    \item[]  нема недосяжних символів
+\end{enumerate}
+
+
+\newpage
+\section{Побудова функції ПЕРШ}
+\begin{itemize}
+    \item[]  ПЕРШ(\verb|I| $\to$ \verb|struct N { ER };|) = \{\verb|struct|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|a|)                = \{\verb|a|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|b|)                = \{\verb|b|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|c|)                = \{\verb|c|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|t|)                = \{\verb|t|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|l|)                = \{\verb|l|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|k|)                = \{\verb|k|\}
+    \item[]  ПЕРШ(\verb|T| $\to$ \verb|int|)              = \{\verb|int|\}
+    \item[]  ПЕРШ(\verb|T| $\to$ \verb|float|)            = \{\verb|float|\}
+    \item[]  ПЕРШ(\verb|T| $\to$ \verb|char|)             = \{\verb|char|\}
+    \item[]  ПЕРШ(\verb|E| $\to$ \verb|TNP;|)             = ПЕРШ(\verb|T|) = \{\verb|int|, \verb|float|, \verb|char|\}
+    \item[]  ПЕРШ(\verb|R| $\to$ \verb|ER|)               = ПЕРШ(\verb|E|) = ПЕРШ(\verb|T|) = \{\verb|int|, \verb|float|, \verb|char|\}
+    \item[]  ПЕРШ(\verb|R| $\to$ \verb|$|)                = \{\verb|$|\}
+    \item[]  ПЕРШ(\verb|P| $\to$ \verb|,NP|)              = \{\verb|,|\}
+    \item[]  ПЕРШ(\verb|P| $\to$ \verb|$|)                = \{\verb|$|\}
+\end{itemize}
+
+\section{Побудова функції СЛІД}
+\begin{itemize}
+    \item[]  СЛІД(\verb|I|) = \{\verb|$|\}
+    \item[]  СЛІД(\verb|N|) = \{\verb|{|\} $\cup$ ПЕРШ(\verb|P|) = \{\verb|{|, \verb|,|, \verb|;|\}
+    \item[]  СЛІД(\verb|T|) = ПЕРШ(\verb|N|) = \{\verb|a|, \verb|b|, \verb|c|, \verb|t|, \verb|l|, \verb|k|\}
+    \item[]  СЛІД(\verb|E|) = ПЕРШ(\verb|R|) $\cup$ \{\verb|}|\} = \{\verb|int|, \verb|float|, \verb|char|, \verb|}|\}
+    \item[]  СЛІД(\verb|R|) = \{\verb|}|\} $\cup$ СЛІД(\verb|R|) = \{\verb|}|\}
+    \item[]  СЛІД(\verb|P|) = \{\verb|;|\} $\cup$ СЛІД(\verb|P|) = \{\verb|;|\}
+\end{itemize}
+
+\section{Побудова функції ВИБІР}
+\begin{itemize}
+    \item[]  ВИБІР(\verb|I| $\to$ \verb|struct N { ER };|) = ПЕРШ(\verb|1|)  = \{\verb|struct|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|a|)                = ПЕРШ(\verb|2|)  = \{\verb|a|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|b|)                = ПЕРШ(\verb|3|)  = \{\verb|b|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|c|)                = ПЕРШ(\verb|4|)  = \{\verb|c|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|t|)                = ПЕРШ(\verb|5|)  = \{\verb|t|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|l|)                = ПЕРШ(\verb|6|)  = \{\verb|l|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|k|)                = ПЕРШ(\verb|7|)  = \{\verb|k|\}
+    \item[]  ВИБІР(\verb|T| $\to$ \verb|int|)              = ПЕРШ(\verb|8|)  = \{\verb|int|\}
+    \item[]  ВИБІР(\verb|T| $\to$ \verb|float|)            = ПЕРШ(\verb|9|)  = \{\verb|float|\}
+    \item[]  ВИБІР(\verb|T| $\to$ \verb|char|)             = ПЕРШ(\verb|10|) = \{\verb|char|\}
+    \item[]  ВИБІР(\verb|E| $\to$ \verb|TNP;|)             = ПЕРШ(\verb|11|) = \{\verb|int|, \verb|float|, \verb|char|\}
+    \item[]  ВИБІР(\verb|R| $\to$ \verb|ER|)               = ПЕРШ(\verb|12|) = \{\verb|int|, \verb|float|, \verb|char|\}
+    \item[]  ВИБІР(\verb|R| $\to$ \verb|$|)                = СЛІД(\verb|R|)  = \{\verb|}|\}
+    \item[]  ВИБІР(\verb|P| $\to$ \verb|,NP|)              = ПЕРШ(\verb|14|) = \{\verb|,|\}
+    \item[]  ВИБІР(\verb|P| $\to$ \verb|$|)                = СЛІД(\verb|P|)  = \{\verb|;|\}
+\end{itemize}
+
+
+\section{Визначення типу граматики}
+Граматика є LL(1) граматикою
+
+
+\newpage
+\section{Побудова команд розпізнавача}
+\begin{enumerate}
+    \item  $f$  (\verb|s|,  \verb|struct|,  \verb|I|)       = \verb|(s, ;}RE{N)|\
+    \item  $f$  (\verb|s|,  \verb|a|,       \verb|N|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|b|,       \verb|N|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|c|,       \verb|N|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|t|,       \verb|N|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|l|,       \verb|N|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|k|,       \verb|N|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|int|,     \verb|T|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|float|,   \verb|T|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|char|,    \verb|T|)       = \verb|(s, $)|\
+    \item  $f*$ (\verb|s|,  \verb|int|,     \verb|E|)       = \verb|(s, ;PNT)|\
+    \item  $f*$ (\verb|s|,  \verb|float|,   \verb|E|)       = \verb|(s, ;PNT)|\
+    \item  $f*$ (\verb|s|,  \verb|char|,    \verb|E|)       = \verb|(s, ;PNT)|\
+    \item  $f*$ (\verb|s|,  \verb|int|,     \verb|R|)       = \verb|(s, RE)|\
+    \item  $f*$ (\verb|s|,  \verb|float|,   \verb|R|)       = \verb|(s, RE)|\
+    \item  $f*$ (\verb|s|,  \verb|char|,    \verb|R|)       = \verb|(s, RE)|\
+    \item  $f*$ (\verb|s|,  \verb|}|,       \verb|R|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|,|,       \verb|P|)       = \verb|(s, PN)|\
+    \item  $f*$ (\verb|s|,  \verb|;|,       \verb|P|)       = \verb|(s, $)|\
+
+    \item  $f$  (\verb|s|,  \verb|{|,       \verb|{|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|}|,       \verb|}|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|;|,       \verb|;|)       = \verb|(s, $)|\
+    \item  $f*$ (\verb|s|,  \verb|$|,       \verb|h0|)      = \verb|(s, $)|\
+
+\end{enumerate}
+
+\newcommand{\xvdash}[1]{$\stackrel{\text{#1}}{\vdash}$}
+
+\newpage
+\section{Перевірка команд розпізнавача}
+Приклад для перевірки: \verb|struct k { int a,b; char c; };|
+\begin{itemize}
+    \item[]  (s, \quad \verb|struct k { int a,b; char c; };|,    \quad $h_{0}$\verb|I|)            $\vdash$ 1
+    \item[]  (s, \quad \verb|k { int a,b; char c; };|,           \quad $h_{0}$\verb|;}RE{N|)       $\vdash$ 7
+    \item[]  (s, \quad \verb|{ int a,b; char c; };|,             \quad $h_{0}$\verb|;}RE{|)        $\vdash$ 20
+    \item[]  (s, \quad \verb|int a,b; char c; };|,               \quad $h_{0}$\verb|;}RE|)         $\vdash$ 11
+    \item[]  (s, \quad \verb|int a,b; char c; };|,               \quad $h_{0}$\verb|;}R;PNT|)      $\vdash$ 8
+    \item[]  (s, \quad \verb|a,b; char c; };|,                   \quad $h_{0}$\verb|;}R;PN|)       $\vdash$ 2
+    \item[]  (s, \quad \verb|,b; char c; };|,                    \quad $h_{0}$\verb|;}R;P|)        $\vdash$ 18
+    \item[]  (s, \quad \verb|b; char c; };|,                     \quad $h_{0}$\verb|;}R;PN|)       $\vdash$ 3
+    \item[]  (s, \quad \verb|; char c; };|,                      \quad $h_{0}$\verb|;}R;P|)        $\vdash$ 19
+    \item[]  (s, \quad \verb|; char c; };|,                      \quad $h_{0}$\verb|;}R;|)         $\vdash$ 22
+    \item[]  (s, \quad \verb|char c; };|,                        \quad $h_{0}$\verb|;}R|)          $\vdash$ 16
+    \item[]  (s, \quad \verb|char c; };|,                        \quad $h_{0}$\verb|;}RE|)         $\vdash$ 13
+    \item[]  (s, \quad \verb|char c; };|,                        \quad $h_{0}$\verb|;}R;PNT|)      $\vdash$ 10
+    \item[]  (s, \quad \verb|c; };|,                             \quad $h_{0}$\verb|;}R;PN|)       $\vdash$ 4
+    \item[]  (s, \quad \verb|; };|,                              \quad $h_{0}$\verb|;}R;P|)        $\vdash$ 19
+    \item[]  (s, \quad \verb|; };|,                              \quad $h_{0}$\verb|;}R;|)         $\vdash$ 22
+    \item[]  (s, \quad \verb|};|,                                \quad $h_{0}$\verb|;}R|)          $\vdash$ 17
+    \item[]  (s, \quad \verb|};|,                                \quad $h_{0}$\verb|;}|)           $\vdash$ 21
+    \item[]  (s, \quad \verb|;|,                                 \quad $h_{0}$\verb|;|)            $\vdash$ 22
+    \item[]  (s, \quad \verb|$|,                                 \quad $h_{0}$)                    $\vdash$ 23
+    \item[]  (s, \quad \verb|$|,                                 \quad \verb|$|) - Успішне розпізнавання
+\end{itemize}

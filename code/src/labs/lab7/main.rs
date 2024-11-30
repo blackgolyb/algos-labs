@@ -33,4 +33,3 @@ pub fn main() {
         time_vector.0, time_vector.1
     );
 }
-

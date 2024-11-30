@@ -1,3 +1,21 @@
+use std::fmt::Display;
+
+pub struct Metrics {
+    pub swaps: i64,
+    pub compares: i64,
+    pub time: std::time::Duration,
+}
+
+impl Display for Metrics {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "Comparisons: {}, Swaps: {}, Execution Time: {:?}",
+            self.compares, self.swaps, self.time
+        )
+    }
+}
+
 pub struct Logger {
     swaps: i64,
     compares: i64,
@@ -12,6 +30,14 @@ impl Logger {
             compares: 0,
             time: std::time::Instant::now(),
             result_time: std::time::Duration::new(0, 0),
+        }
+    }
+
+    pub fn get_metrics(&self) -> Metrics {
+        Metrics {
+            swaps: self.swaps,
+            compares: self.compares,
+            time: self.result_time,
         }
     }
 

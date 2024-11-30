@@ -1,62 +1,180 @@
 \section{Завдання}
-Для наведених прикладів ланцюжків побудувати правила граматики.
+\noindent
+1. Для наведених прикладів ланцюжків побудувати правила граматики.
 Перевірити правильність складання правил за допомогою виведення.
-Перевірити наявність непродуктивних та недосяжних символів.
+Перевірити наявність непродуктивних та недосяжних символів:
+
 \begin{enumerate}
-    \item \verb|struct t { int a; float c,a,c; char c;};|
-    \item \verb|struct l { int c,a; int b; };|
-    \item \verb|struct k { float c; char c; int a; };|
+    \item \verb|var i:array[1..n] of real:j:array[1..n] of i:integer;|
+    \item \verb|var k:array[1..n] of i:integer;|
 \end{enumerate}
 
+\noindent
+2. Визначити візуально якого класу належить побудована граматика:
+\begin{itemize}
+    \item Проста
+    \item Слабкорозділена
+    \item LL - граматика
+\end{itemize}
 
-\section{Опис граматики}
-\begin{multicols}{2}
-\begin{enumerate}
-    \item  I $\to$ struct S \{ER\};
-    \item  S $\to$ t
-    \item  S $\to$ l
-    \item  S $\to$ k
-    \item  E $\to$ T NP;
-    \item  T $\to$ int
-    \item  T $\to$ float
-    \item  T $\to$ char
-    \item  N $\to$ a
-    \item  N $\to$ b
-    \item  N $\to$ c
-    \item  P $\to$ ,NP
-    \item  P $\to$ \$
-    \item  R $\to$ ER
-    \item  R $\to$ \$
-\end{enumerate}
-\columnbreak
-\begin{enumerate}
-    \item  I $\to$ struct S \{ER\};
-    \item  S $\to$ t | l | k
-    \item  E $\to$ T NP;
-    \item  T $\to$ int | float | char
-    \item  N $\to$ a | b | c
-    \item  P $\to$ ,NP | \$
-    \item  R $\to$ ER | \$
-\end{enumerate}
-\end{multicols}
+\noindent
+3. Якщо граматики не є простою, то побудувати функції ПЕРШ(), СЛІД()
+і множину ВИБІР. Для заданої граматики збудувати команди розпізнавача.
+
+\noindent
+4. Роботу розпізнавача перевірити на прикладі розпізнавання ланцюжка.
 
 
 \newpage
-\section{Перевірка граматики}
-Приклад для перевірки: \verb|struct l { int a, b; char c; };|
+\section{Побудова правил граматики}
+\begin{enumerate}
+    \item  \verb|I| $\to$ \verb|var ER;|
+    \item  \verb|S| $\to$ \verb|integer|
+    \item  \verb|S| $\to$ \verb|real|
+    \item  \verb|A| $\to$ \verb|array[1..n]|
+    \item  \verb|T| $\to$ \verb|S|
+    \item  \verb|T| $\to$ \verb|A|
+    \item  \verb|N| $\to$ \verb|i|
+    \item  \verb|N| $\to$ \verb|j|
+    \item  \verb|N| $\to$ \verb|k|
+    \item  \verb|E| $\to$ \verb|N:T|
+    \item  \verb|E| $\to$ \verb|S:N:A|
+    \item  \verb|R| $\to$ \verb|of ER|
+    \item  \verb|R| $\to$ \verb|$|
+\end{enumerate}
 
-\noindent
-I $\xrightarrow{1}$ struct S \{ER\}; \\
-$\xrightarrow{3}$ struct l \{ER\}; \\
-$\xrightarrow{5}$ struct l \{T NP; R\}; \\
-$\xrightarrow{6}$ struct l \{int NP; R\}; \\
-$\xrightarrow{9}$ struct l \{int aP; R\}; \\
-$\xrightarrow{12}$ struct l \{int a, NP; R\}; \\
-$\xrightarrow{10}$ struct l \{int a, bP; R\}; \\
-$\xrightarrow{13}$ struct l \{int a, b; R\}; \\
-$\xrightarrow{14}$ struct l \{int a, b; ER\}; \\
-$\xrightarrow{5}$ struct l \{int a, b; T NP; R\}; \\
-$\xrightarrow{8}$ struct l \{int a, b; char NP; R\}; \\
-$\xrightarrow{11}$ struct l \{int a, b; char cP; R\}; \\
-$\xrightarrow{13}$ struct l \{int a, b; char c; R\}; \\
-$\xrightarrow{15}$ struct l \{int a, b; char c;\}; \\
+
+\newpage
+\section{Перевірка правил граматики}
+Приклад для перевірки: \verb|var integer:k:array[1..n] of i:real;|
+\begin{itemize}
+    \item[]  I $\xrightarrow{1}$  \verb|var ER;|
+    \item[]    $\xrightarrow{11}$ \verb|var S:N:AR;|
+    \item[]    $\xrightarrow{2}$  \verb|var integer:N:AR;|
+    \item[]    $\xrightarrow{9}$  \verb|var integer:k:AR;|
+    \item[]    $\xrightarrow{4}$  \verb|var integer:k:array[1..n]R;|
+    \item[]    $\xrightarrow{12}$ \verb|var integer:k:array[1..n] of ER;|
+    \item[]    $\xrightarrow{10}$ \verb|var integer:k:array[1..n] of N:TR;|
+    \item[]    $\xrightarrow{7}$  \verb|var integer:k:array[1..n] of i:TR;|
+    \item[]    $\xrightarrow{3}$  \verb|var integer:k:array[1..n] of i:realR;|
+    \item[]    $\xrightarrow{13}$ \verb|var integer:k:array[1..n] of i:real;|
+\end{itemize}
+
+\newpage
+\section{Перевірка на непродуктивність}
+\begin{enumerate}
+    \item[]  S A N R
+    \item[]  S A N R T E I
+    \item[]  нема непродуктивних символів
+\end{enumerate}
+
+\section{Перевірка на недосяжність}
+\begin{enumerate}
+    \item[]  I
+    \item[]  I E R
+    \item[]  I E R T S A N
+    \item[]  нема недосяжних символів
+\end{enumerate}
+
+
+\newpage
+\section{Побудова функції ПЕРШ}
+\begin{itemize}
+    \item[]  ПЕРШ(\verb|I| $\to$ \verb|var ER;|)      = \{\verb|var|\}
+    \item[]  ПЕРШ(\verb|S| $\to$ \verb|integer|)      = \{\verb|integer|\}
+    \item[]  ПЕРШ(\verb|S| $\to$ \verb|real|)         = \{\verb|real|\}
+    \item[]  ПЕРШ(\verb|A| $\to$ \verb|array[1..n]|)  = \{\verb|array[1..n]|\}
+    \item[]  ПЕРШ(\verb|T| $\to$ \verb|S|)            = ПЕРШ(\verb|S|) = \{\verb|integer|, \verb|real|\}
+    \item[]  ПЕРШ(\verb|T| $\to$ \verb|A|)            = ПЕРШ(\verb|A|) = \{\verb|array[1..n]|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|i|)            = \{\verb|i|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|j|)            = \{\verb|j|\}
+    \item[]  ПЕРШ(\verb|N| $\to$ \verb|k|)            = \{\verb|k|\}
+    \item[]  ПЕРШ(\verb|E| $\to$ \verb|N:T|)          = ПЕРШ(\verb|N|) = \{\verb|i|, \verb|j|, \verb|k|\}
+    \item[]  ПЕРШ(\verb|E| $\to$ \verb|S:N:A|)        = ПЕРШ(\verb|S|) = \{\verb|integer|, \verb|real|\}
+    \item[]  ПЕРШ(\verb|R| $\to$ \verb|of ER|)        = \{\verb|of|\}
+    \item[]  ПЕРШ(\verb|R| $\to$ \verb|$|)            = \{\verb|$|\}
+\end{itemize}
+
+\section{Побудова функції СЛІД}
+\begin{itemize}
+    \item[]  СЛІД(\verb|I|) = \{\verb|$|\}
+    \item[]  СЛІД(\verb|S|) = \{\verb|:|\} $\cup$ СЛІД(\verb|T|) = \{\verb|:|, \verb|;|, \verb|of|\}
+    \item[]  СЛІД(\verb|A|) = СЛІД(\verb|T|) = \{\verb|;|, \verb|of|\}
+    \item[]  СЛІД(\verb|T|) = СЛІД(\verb|E|) = \{\verb|;|, \verb|of|\}
+    \item[]  СЛІД(\verb|N|) = \{\verb|:|\}
+    \item[]  СЛІД(\verb|E|) = \{\verb|;|\} $\cup$ ПЕРШ(\verb|R|) = \{\verb|;|, \verb|of|\}
+    \item[]  СЛІД(\verb|R|) = \{\verb|;|\} $\cup$ СЛІД(\verb|R|) = \{\verb|;|\}
+\end{itemize}
+
+\section{Побудова функції ВИБІР}
+\begin{itemize}
+    \item[]  ВИБІР(\verb|I| $\to$ \verb|var ER;|)      = ПЕРШ(\verb|1|)  = \{\verb|var|\}
+    \item[]  ВИБІР(\verb|S| $\to$ \verb|integer|)      = ПЕРШ(\verb|2|)  = \{\verb|integer|\}
+    \item[]  ВИБІР(\verb|S| $\to$ \verb|real|)         = ПЕРШ(\verb|3|)  = \{\verb|real|\}
+    \item[]  ВИБІР(\verb|A| $\to$ \verb|array[1..n]|)  = ПЕРШ(\verb|4|)  = \{\verb|array[1..n]|\}
+    \item[]  ВИБІР(\verb|T| $\to$ \verb|S|)            = ПЕРШ(\verb|5|)  = \{\verb|integer|, \verb|real|\}
+    \item[]  ВИБІР(\verb|T| $\to$ \verb|A|)            = ПЕРШ(\verb|6|)  = \{\verb|array[1..n]|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|i|)            = ПЕРШ(\verb|7|)  = \{\verb|i|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|j|)            = ПЕРШ(\verb|8|)  = \{\verb|j|\}
+    \item[]  ВИБІР(\verb|N| $\to$ \verb|k|)            = ПЕРШ(\verb|9|)  = \{\verb|k|\}
+    \item[]  ВИБІР(\verb|E| $\to$ \verb|N:T|)          = ПЕРШ(\verb|10|) = \{\verb|i|, \verb|j|, \verb|k|\}
+    \item[]  ВИБІР(\verb|E| $\to$ \verb|S:N:A|)        = ПЕРШ(\verb|11|) = \{\verb|integer|, \verb|real|\}
+    \item[]  ВИБІР(\verb|R| $\to$ \verb|of ER|)        = ПЕРШ(\verb|12|) = \{\verb|of|\}
+    \item[]  ВИБІР(\verb|R| $\to$ \verb|$|)            = СЛІД(\verb|R|)  = \{\verb|;|\}
+\end{itemize}
+
+
+\section{Визначення типу граматики}
+Граматика є LL(1) граматикою
+
+
+\newpage
+\section{Побудова команд розпізнавача}
+\begin{enumerate}
+    \item  $f$  (\verb|s|,  \verb|var|,         \verb|I|)       = \verb|(s, ;RE)|\
+    \item  $f$  (\verb|s|,  \verb|integer|,     \verb|S|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|real|,        \verb|S|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|array[1..n]|, \verb|A|)       = \verb|(s, $)|\
+    \item  $f*$ (\verb|s|,  \verb|integer|,     \verb|T|)       = \verb|(s, S)|\
+    \item  $f*$ (\verb|s|,  \verb|real|,        \verb|T|)       = \verb|(s, S)|\
+    \item  $f*$ (\verb|s|,  \verb|array[1..n]|, \verb|T|)       = \verb|(s, A)|\
+    \item  $f$  (\verb|s|,  \verb|i|,           \verb|N|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|j|,           \verb|N|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|k|,           \verb|N|)       = \verb|(s, $)|\
+    \item  $f*$ (\verb|s|,  \verb|i|,           \verb|E|)       = \verb|(s, T:N)|\
+    \item  $f*$ (\verb|s|,  \verb|j|,           \verb|E|)       = \verb|(s, T:N)|\
+    \item  $f*$ (\verb|s|,  \verb|k|,           \verb|E|)       = \verb|(s, T:N)|\
+    \item  $f*$ (\verb|s|,  \verb|integer|,     \verb|E|)       = \verb|(s, A:N:S)|\
+    \item  $f*$ (\verb|s|,  \verb|real|,        \verb|E|)       = \verb|(s, A:N:S)|\
+    \item  $f$  (\verb|s|,  \verb|of|,          \verb|R|)       = \verb|(s, RE)|\
+    \item  $f*$ (\verb|s|,  \verb|;|,           \verb|R|)       = \verb|(s, $)|\
+
+    \item  $f$  (\verb|s|,  \verb|:|,           \verb|:|)       = \verb|(s, $)|\
+    \item  $f$  (\verb|s|,  \verb|;|,           \verb|;|)       = \verb|(s, $)|\
+    \item  $f*$ (\verb|s|,  \verb|$|,           \verb|h0|)      = \verb|(s, $)|\
+\end{enumerate}
+
+\newcommand{\xvdash}[1]{$\stackrel{\text{#1}}{\vdash}$}
+
+\newpage
+\section{Перевірка команд розпізнавача}
+Приклад для перевірки: \verb|var integer:k:array[1..n] of i:real;|
+\begin{itemize}
+    \item[]  (s, \quad \verb|var integer:k:array[1..n] of i:real;|, \quad $h_{0}$\verb|I|)              $\vdash$ 1
+    \item[]  (s, \quad \verb|integer:k:array[1..n] of i:real;|,     \quad $h_{0}$\verb|;RE|)            $\vdash$ 14
+    \item[]  (s, \quad \verb|integer:k:array[1..n] of i:real;|,     \quad $h_{0}$\verb|;RA:N:S|)        $\vdash$ 2
+    \item[]  (s, \quad \verb|:k:array[1..n] of i:real;|,            \quad $h_{0}$\verb|;RA:N:|)         $\vdash$ 18
+    \item[]  (s, \quad \verb|k:array[1..n] of i:real;|,             \quad $h_{0}$\verb|;RA:N|)          $\vdash$ 10
+    \item[]  (s, \quad \verb|:array[1..n] of i:real;|,              \quad $h_{0}$\verb|;RA:|)           $\vdash$ 18
+    \item[]  (s, \quad \verb|array[1..n] of i:real;|,               \quad $h_{0}$\verb|;RA|)            $\vdash$ 4
+    \item[]  (s, \quad \verb|of i:real;|,                           \quad $h_{0}$\verb|;R|)             $\vdash$ 16
+    \item[]  (s, \quad \verb|i:real;|,                              \quad $h_{0}$\verb|;RE|)            $\vdash$ 11
+    \item[]  (s, \quad \verb|i:real;|,                              \quad $h_{0}$\verb|;RT:N|)          $\vdash$ 8
+    \item[]  (s, \quad \verb|:real;|,                               \quad $h_{0}$\verb|;RT:|)           $\vdash$ 18
+    \item[]  (s, \quad \verb|real;|,                                \quad $h_{0}$\verb|;RT|)            $\vdash$ 6
+    \item[]  (s, \quad \verb|real;|,                                \quad $h_{0}$\verb|;RS|)            $\vdash$ 3
+    \item[]  (s, \quad \verb|;|,                                    \quad $h_{0}$\verb|;R|)             $\vdash$ 17
+    \item[]  (s, \quad \verb|;|,                                    \quad $h_{0}$\verb|;|)              $\vdash$ 19
+    \item[]  (s, \quad \verb|$|,                                    \quad $h_{0}$)                      $\vdash$ 20
+    \item[]  (s, \quad \verb|$|,                                    \quad \verb|$|) - Успішне розпізнавання
+\end{itemize}

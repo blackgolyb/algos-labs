@@ -1,0 +1,12 @@
+# Fdb version 4
+["pdflatex"] 1731062029.58823 "/home/blackgolyb/Documents/algos/reports/src/formal/kr3/main.tex" "main.pdf" "main" 1731062029.9853 2
+  "/home/blackgolyb/Documents/algos/reports/src/formal/kr3/main.tex" 1731062029.45645 11776 df9000e8ab3216627dcb315a31cb7b07 ""
+  "/usr/share/texmf-dist/web2c/texmf.cnf" 1716849630 41588 b43d3e860a4f94167ee1e725ff526a72 ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1728564066 8555678 63900c78a3ea1bccabc07cc978cc6f17 ""
+  "main.aux" 1731060467.18976 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "main.tex" 1731062029.45645 11776 df9000e8ab3216627dcb315a31cb7b07 ""
+  (generated)
+  "main.aux"
+  "main.log"
+  "main.pdf"
+  (rewritten before read)
